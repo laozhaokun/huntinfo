@@ -1,0 +1,50 @@
+.index_body{
+	font-size: 16px;
+	color: #666;
+	background: #fff;
+	width:620px;
+	height:500px;
+}
+.hi_title{
+	font: bold 20px "微软雅黑";
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.hi_content{
+	width:800px;
+	border-top: 0;
+	border: 1px solid #CCC;
+	padding-left: 12px
+}
+ul li{
+
+	line-height: 2.1;
+}
+h2 a{
+	text-decoration: none;
+	color:#4B0082;
+}
+h3 a{
+	text-decoration: none;
+}
+.title_href a {
+	text-decoration: none;
+	color: #666;
+}
+
+.title_href:hover a{
+	text-decoration: underline;
+	color: #0055A6;
+}
+.title_href:focus a{
+	outline: 0;
+	-moz-outline: 0
+}
+body,h1,h2,h3,h4,h6,p,ul,li,pre,form,input {
+	margin: 0;
+	padding: 0
+}
+.footer{
+		text-align: center;
+		border-top: 2px solid #ECECEC;
+}
