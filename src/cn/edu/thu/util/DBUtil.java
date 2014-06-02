@@ -19,7 +19,7 @@ public class DBUtil {
 //			connection = DriverManager.getConnection(
 //					"jdbc:mysql://localhost:3306/hunt_info?useUnicode=true&characterEncoding=utf-8", "root", "root");
 			connection = DriverManager.getConnection(
-					"jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_huntinfo?useUnicode=true&characterEncoding=utf-8", "w0l5nl5k21", "yxhmmk5miimxxzmjhjzmhzmkjz4xkjhkm5w4xyzj");
+					"jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_huntinfo?useUnicode=true&characterEncoding=utf-8", "accesskey", "accesspassword");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
