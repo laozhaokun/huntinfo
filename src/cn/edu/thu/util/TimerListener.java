@@ -24,7 +24,7 @@ public class TimerListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		timer = new java.util.Timer(true);
 		task = new EveryHourTimerTask();
-		timer.schedule(task, 60 * 60 * 1000, 60 * 60 * 1000);//服务器启动后的一小时后启动，每隔一小时执行一次
+		timer.schedule(task, 60*60 * 1000, 60 * 60 * 1000);//服务器启动后的一小时后启动，每隔一小时执行一次
 	}
 
 }

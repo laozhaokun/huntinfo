@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="footer">
-<p>注意：本站信息为机器自动更新，每小时到目标站点抓取一次。</p>
+<p>注：本站信息为机器自动更新，每小时到目标站点抓取一次。</p>
 	 <dl>
   <dd>
   	<span>相关链接</span> 
@@ -19,7 +19,7 @@
 	|
 	<a target="_blank" href="http://www.github.com/laozhaokun">Github</a>
 	|
-	<a target="_blank" href="http://www.mianshibaike.com">面 试</a>
+	<a target="_blank" href="http://www.mianshibaike.com?huntinfo">面 试</a>
 	|
 	<a target="_blank" href="http://sae.sina.com.cn">SAE</a>
 	|
@@ -29,3 +29,7 @@
 </div>
 </body>
 </html>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fad525ed6710ad97d811b90fbaf1c528e' type='text/javascript'%3E%3C/script%3E"));
+</script>

@@ -1,6 +1,6 @@
 package cn.edu.thu.service;
 
-import java.util.Set;
+import java.util.List;
 
 import cn.edu.thu.bean.HuntInfo;
 import cn.edu.thu.util.SQLUtil;
@@ -11,7 +11,7 @@ import cn.edu.thu.util.SQLUtil;
  */
 public class HuntInfoService {
 	SQLUtil su = new SQLUtil();
-	public Set<HuntInfo> getHuntInfo(String source,int pageNow, int pageSize){
+	public List<HuntInfo> getHuntInfo(String source,int pageNow, int pageSize){
 		return su.getInfo(source,pageNow,pageSize);
 	}
 	

@@ -17,8 +17,11 @@
 	padding-left: 12px
 }
 ul li{
-
+	padding-left: 20px;
 	line-height: 2.1;
+}
+.pageTag{
+	padding-left: 120px;
 }
 h2 a{
 	text-decoration: none;

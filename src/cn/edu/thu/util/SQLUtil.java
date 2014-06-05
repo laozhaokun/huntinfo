@@ -3,9 +3,7 @@ package cn.edu.thu.util;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import cn.edu.thu.bean.HuntInfo;
 
@@ -17,7 +15,15 @@ import cn.edu.thu.bean.HuntInfo;
 public class SQLUtil {
 	DBUtil db = new DBUtil();
 
-	public void insert(Set<HuntInfo> set) {
+	public static void main(String[] args) {
+		DBUtil db = new DBUtil();
+		db.openConnection();
+		String sql = "insert into huntinfo(title,content_url,content,source,pub_date) "
+				+ "values('hello','http:test','just test','shui','2014-06-05 10:50:04')";
+		db.update(sql);
+		db.closeConnection();
+	}
+	public void insert(List<HuntInfo> set) {
 		db.openConnection();
 		for (HuntInfo hi : set) {
 			String temp = "select content_url from huntinfo";
@@ -31,7 +37,7 @@ public class SQLUtil {
 				e.printStackTrace();
 			}
 			if (!list.contains(hi.getContent_url())) {
-				String sql = "insert into huntinfo(title,content_url,content,source) "
+				String sql = "insert into huntinfo(title,content_url,content,source,pub_date) "
 						+ "values('"
 						+ hi.getTitle()
 						+ "','"
@@ -39,7 +45,8 @@ public class SQLUtil {
 						+ "','"
 						+ hi.getContent()
 						+ "','"
-						+ hi.getSource() + "')";
+						+ hi.getSource() + "','"
+						+ hi.getPub_date()	+ "')";
 				db.update(sql);
 			}
 			System.out.println(hi.getTitle() + ", " + hi.getContent_url());
@@ -68,11 +75,11 @@ public class SQLUtil {
 		return totalPage;
 	}
 
-	public Set<HuntInfo> getInfo(String source,int pageNow, int pageSize) {
-		Set<HuntInfo> set = new HashSet<HuntInfo>();
+	public List<HuntInfo> getInfo(String source,int pageNow, int pageSize) {
+		List<HuntInfo> list = new ArrayList<HuntInfo>();
 		db.openConnection();
-		String query = "select id,title,content_url from huntinfo where source = '"
-				+ source + "' order by id desc limit "
+		String query = "select id,title,content_url,pub_date from huntinfo where source = '"
+				+ source + "' order by pub_date desc limit "
 				+ (pageNow * pageSize - pageSize) + "," + pageSize;
 		ResultSet rs = db.query(query);
 		try {
@@ -81,13 +88,14 @@ public class SQLUtil {
 				hi.setId(rs.getInt("id"));
 				hi.setTitle(rs.getString("title"));
 				hi.setContent_url(rs.getString("content_url"));
-				set.add(hi);
+				hi.setPub_date(rs.getString("pub_date"));
+				list.add(hi);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		db.closeConnection();
-		return set;
+		return list;
 	}
 
 	public HuntInfo getContent(int id) {

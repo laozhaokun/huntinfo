@@ -1,6 +1,5 @@
 package cn.edu.thu.bean;
 
-import java.util.Date;
 
 /**
  * @author zhf
@@ -13,7 +12,7 @@ public class HuntInfo {
 	private String content;
 	private String content_url;
 	private String source;
-	private Date pub_date;
+	private String pub_date;
 	public String getTitle() {
 		return title;
 	}
@@ -44,12 +43,11 @@ public class HuntInfo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Date getPub_date() {
+	public String getPub_date() {
 		return pub_date;
 	}
-	public void setPub_date(Date pubDate) {
+	public void setPub_date(String pubDate) {
 		this.pub_date = pubDate;
 	}
-	
 
 }
