@@ -21,17 +21,20 @@ public class HuntInfoAction extends ActionSupport{
 	private String source;
 	HuntInfoService his = new HuntInfoService();
 	public String getHuntInfoList(){
-		shi = his.getHuntInfo(source,pageNow,10);
-		totalPage = his.getTotalPage(source,10);
+		List<HuntInfo> shi = his.getHuntInfo(source,pageNow,10);
+		int totalPage = his.getTotalPage(source,10);
 		if(shi == null)
 			return ERROR;
+		this.shi = shi;
+		this.totalPage = totalPage;
 		return SUCCESS;
 	}
 	
 	public String getHuntContent(){
-		hi = his.getContentById(id);
+		HuntInfo hi = his.getContentById(id);
 		if(hi == null)
 			return ERROR;
+		this.hi = hi;
 		return SUCCESS;
 	}
 	public List<HuntInfo> getShi() {

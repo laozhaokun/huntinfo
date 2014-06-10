@@ -49,7 +49,7 @@ public class SQLUtil {
 						+ hi.getPub_date()	+ "')";
 				db.update(sql);
 			}
-			System.out.println(hi.getTitle() + ", " + hi.getContent_url());
+//			System.out.println(hi.getTitle() + ", " + hi.getContent_url());
 		}
 		db.closeConnection();
 	}

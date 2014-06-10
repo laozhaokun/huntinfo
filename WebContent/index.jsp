@@ -20,7 +20,8 @@
 			<dd>
 				<a href="getHuntInfoListAction?source=shuimu_social">水木_社会招聘</a>&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="getHuntInfoListAction?source=shuimu_campus">水木_校园招聘</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="getHuntInfoListAction?source=shuimu_hunting">水木_猎头招聘</a>
+				<a href="getHuntInfoListAction?source=shuimu_hunting">水木_猎头招聘</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="getHuntInfoListAction?source=byr">北邮人_招聘</a>
 			</dd>
 		</h3>
 		<br /> <br />
@@ -50,6 +51,12 @@
 					<s:param name="pageNow" value="pageNow-1"></s:param>
 				</s:url>
 			</s:elseif>
+			<s:elseif test="source == 'byr'">
+				<s:url id="url_pre"
+					value="getHuntInfoListAction?source=byr">
+					<s:param name="pageNow" value="pageNow-1"></s:param>
+				</s:url>
+			</s:elseif>
 
 			<s:if test="source == 'shuimu_social'">
 				<s:url id="url_next"
@@ -66,6 +73,12 @@
 			<s:elseif test="source == 'shuimu_hunting'">
 				<s:url id="url_next"
 					value="getHuntInfoListAction?source=shuimu_hunting">
+					<s:param name="pageNow" value="pageNow+1"></s:param>
+				</s:url>
+			</s:elseif>
+			<s:elseif test="source == 'byr'">
+				<s:url id="url_next"
+					value="getHuntInfoListAction?source=byr">
 					<s:param name="pageNow" value="pageNow+1"></s:param>
 				</s:url>
 			</s:elseif>

@@ -27,7 +27,9 @@ public class Crawler {
 //		SimpleDateFormat s= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String dateStr = s.format(d1); //转为字符串
 //		System.out.println(dateStr);
-//		Map<String,String> str = getContent("http://www.newsmth.net/nForum/article/Career_Campus/180218?ajax&p=1");
+//		String url = "http://www.newsmth.net/nForum/article/Career_Campus/180218?ajax&p=1";
+//		String url = "http://bbs.byr.cn/article/JobInfo/167999";
+//		Map<String,String> str = getContent("byr",url);
 		//发信站: 水木社区 (Mon Apr 14 10:46:05 2014), 站内 
 //		System.out.println(str.indexOf("发信站: 水木社区 (")  + ","+ str.indexOf("), 站内 "));
 //		String temp = str.substring(str.indexOf("发信站: 水木社区 (") , str.indexOf("), 站内"));
@@ -38,12 +40,9 @@ public class Crawler {
 //			System.out.println("---------------------------------------");
 //			System.out.println(m.getValue());
 //		}
-		crawleAndInsertToDB();
-//		Set<HuntInfo> set = getShuimu();
-//		System.out.println(set.size());
-		// SQLUtil su = new SQLUtil();
-		// su.insert(set);
-//		for (HuntInfo hi : set) {
+//		crawleAndInsertToDB();
+//		List<HuntInfo> list = getInfoList("byr","byr");
+//		for (HuntInfo hi : list) {
 //			System.out.println(hi.getTitle());
 //			System.out.println(hi.getContent_url());
 //			System.out.println(hi.getSource());
@@ -66,36 +65,47 @@ public class Crawler {
 		System.out.println(set.size());
 	}
 	public static void crawleAndInsertToDB() {
-		List<HuntInfo> set_social,set_campus,set_hunting;
+		List<HuntInfo> set_social,set_campus,set_hunting,set_byr;
 		try {
-			set_social = getShuimu("Career_Upgrade","shuimu_social");
-			set_campus = getShuimu("Career_Campus","shuimu_campus");
-			set_hunting = getShuimu("ExecutiveSearch","shuimu_hunting");
-			print(set_social);
-			print(set_campus);
-			print(set_hunting);
+			set_social = getInfoList("Career_Upgrade","shuimu_social");
+			set_campus = getInfoList("Career_Campus","shuimu_campus");
+			set_hunting = getInfoList("ExecutiveSearch","shuimu_hunting");
+			set_byr = getInfoList("JobInfo","byr");
+//			print(set_social);
+//			print(set_campus);
+//			print(set_hunting);
+//			print(set_byr);
 			SQLUtil su = new SQLUtil();
 			su.insert(set_social);
 			su.insert(set_campus);
 			su.insert(set_hunting);
+			su.insert(set_byr);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	// 获取信息标题、链接
-	public static List<HuntInfo> getShuimu(String source, String sourceTag)
+	public static List<HuntInfo> getInfoList(String source, String sourceTag)
 			throws IOException {
 		List<HuntInfo> list = new ArrayList<HuntInfo>();
-		String url = "http://www.newsmth.net/nForum/board/" + source
-				+ "?ajax&p=";
-		for (int j = 1; j <= 5; j++) {
+		String url = "";
+		if(sourceTag.startsWith("shuimu"))
+			url = "http://www.newsmth.net/nForum/board/" + source+ "?ajax&p=";
+		else
+			url = "http://bbs.byr.cn/board/JobInfo";
+		for (int j = 1; j <= 3; j++) {
+			if(sourceTag.startsWith("shuimu"))
+				url = "http://www.newsmth.net/nForum/board/" + source+ "?ajax&p=" + j;
+			else
+				url = "http://bbs.byr.cn/board/JobInfo?p=" + j;
 			Document doc = Jsoup
-					.connect(url + j)
+					.connect(url)
 					.timeout(50000)
 					.userAgent(
 							"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 "
 									+ "(KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36")
+									.header("X-Requested-With", "XMLHttpRequest")
 					.get();
 			Elements elements = doc.getElementsByClass("title_9");
 			for (Element ele : elements) {
@@ -117,10 +127,14 @@ public class Crawler {
 						|| title.contains("求助") || title.contains("关于")
 						|| title.contains("环保") || title.contains("编剧")
 						|| title.contains("积分") || title.contains("版面")
-						|| title.contains("变更") || title.contains("通知")) {
+						|| title.contains("变更") || title.contains("通知")
+						|| title.contains("骗子") || title.contains("删除")
+						|| title.contains("JobInfo") || title.contains("治版")
+						|| title.contains("方针") || title.contains("否则")
+						|| title.contains("Re") || title.contains("分享")) {
 					continue;
 				} else {
-					Map<String,String> map = getContent(content_url);
+					Map<String,String> map = getContent(sourceTag,content_url);
 					HuntInfo hi = new HuntInfo();
 					hi.setTitle(title);
 					hi.setContent_url(content_url);
@@ -137,24 +151,31 @@ public class Crawler {
 	}
 
 	// 获取文章具体内容
-	public static Map<String,String> getContent(String url) throws IOException {
+	public static Map<String,String> getContent(String sourceTag,String url) throws IOException {
 		Map<String,String> map = new HashMap<String,String>();
 		Document doc = Jsoup
 				.connect(url)
 				.timeout(50000)
 				.userAgent(
-						"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 "
-								+ "(KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36")
+						"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36"
+						+ " (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36")
+					.header("X-Requested-With", "XMLHttpRequest")//重点
 				.get();
 		Elements elements = doc.getElementsByClass("a-content");
 		String temp = "";
 		for (Element ele : elements) {
 			temp += ele.html();
 		}
-		String str = temp.substring(temp.indexOf("发信站: 水木社区 (") , temp.indexOf("), 站内"));
-		String value = str.substring("发信站: 水木社区 (".length());
-		//Mon Apr 14 10:46:05 2014
-		//Thu Jun  5 10:50:04 2014
+		String value = "";
+		if(sourceTag.startsWith("shuimu")){
+			String str = temp.substring(temp.indexOf("发信站: 水木社区 (") , temp.indexOf("), 站内"));
+			value = str.substring("发信站: 水木社区 (".length());
+		}else{
+			String str = temp.substring(temp.indexOf("发信站: 北邮人论坛 (") , temp.indexOf("), 站内"));
+			value = str.substring("发信站: 北邮人论坛 (".length());
+		}
+//		Mon Apr 14 10:46:05 2014
+//		Thu Jun  5 10:50:04 2014
 		Date d1 = new Date(value.replace("&nbsp;&nbsp;", " "));
 		SimpleDateFormat s= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		map.put(trans(temp),s.format(d1));
