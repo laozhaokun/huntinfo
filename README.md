@@ -6,5 +6,6 @@ huntinfo
 后面可能添加别的招聘网站的数据。<br/>
 使用了Jsoup抓取和解析页面数据，MySQL存储数据。<br/>
 可以部署在SAE上面，具体可移步至：<a href="huntinfo.sinaapp.com" target="_blank">huntinfo.sinaapp.com</a><br/>
-------------2014/6/10 update-------------------
+<br/>
+------------2014/6/10 update-------------------<br/>
 添加了北邮人 bbs.byr.cn 数据的抓取
